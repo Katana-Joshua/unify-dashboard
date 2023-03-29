@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-unifyfood-staging-91457-authRole",
+      "UnauthRoleArn": "arn:aws:iam::447460889632:role/amplify-unifyfood-staging-91457-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::447460889632:role/amplify-unifyfood-staging-91457-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-unifyfood-staging-91457-deployment",
+      "UnauthRoleName": "amplify-unifyfood-staging-91457-unauthRole",
+      "StackName": "amplify-unifyfood-staging-91457",
+      "StackId": "arn:aws:cloudformation:us-east-1:447460889632:stack/amplify-unifyfood-staging-91457/61d70270-adda-11ed-930b-12b026f07697",
+      "AmplifyAppId": "d37qfibztxmpae"
+    },
+    "categories": {
+      "auth": {
+        "UnifyFood": {}
+      }
+    }
+  }
+}

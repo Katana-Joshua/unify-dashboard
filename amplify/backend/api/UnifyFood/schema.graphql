@@ -1,0 +1,138 @@
+enum TransportationModes {
+  DRIVING
+  BICYCLING
+  BIKING
+}
+
+type Courier @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  phone: AWSPhone!
+  gender: Gender
+  lat: Float
+  lng: Float
+  transportationMode: TransportationModes
+  ratings: Float
+  sub: String!
+}
+
+type AboutOrder {
+  image: String!
+  summary: String!
+}
+
+type DeliveryLocation {
+  lat: Float!
+  lng: Float!
+  Street: String
+  address: String
+  building: String
+}
+
+type OrderItem @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  quantity: Int!
+  Dish: Dish @hasOne
+  subTotal: Int!
+  extras: [NamePrice]
+  drink: NamePrice
+  orderID: ID! @index(name: "byOrder")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  PREPARING
+  READY_FOR_DELIVERY
+  READY_FOR_PICKUP
+  DELIVERING
+  COMPLETED
+  ACCEPTED
+  DECLINED_BY_RESTAURANT
+}
+
+type Order @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+  restaurantID: ID! @index(name: "byRestaurant")
+  orderNumber: String!
+  isCash: Boolean!
+  isPickup: Boolean!
+  deliveryPrice: Int!
+  totalPrice: Int!
+  status: OrderStatus
+  OrderItems: [OrderItem] @hasMany(indexName: "byOrder", fields: ["id"])
+  deliveryInstructions: String
+  deliveryLocation: DeliveryLocation
+  hostelID: ID
+  isHostelDelivery: Boolean
+  about: AboutOrder
+  Courier: Courier @hasOne
+  Restaurant: Restaurant @belongsTo(fields: ["userID"])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  gender: Gender
+  isStudent: Boolean
+  hostelID: ID
+  Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
+  sub: String!
+}
+
+type Hostel @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  lat: Float!
+  lng: Float!
+  hostelName: String!
+  address: String!
+  street: String
+  building: String
+}
+
+type NamePrice {
+  name: String!
+  price: Int!
+}
+
+type Dish @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  dish_name: String!
+  description: String!
+  image: String!
+  price: Int!
+  extras: [NamePrice]
+  restaurantID: ID! @index(name: "byRestaurant")
+}
+
+type RestaurantCategories {
+  in_campus: Boolean
+  fast_food: Boolean
+  local_food: Boolean
+}
+
+type Restaurant @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  cover_image: String!
+  address: String
+  categories: RestaurantCategories!
+  drinks: [NamePrice]
+  lat: Float!
+  lng: Float!
+  Dishes: [Dish] @hasMany(indexName: "byRestaurant", fields: ["id"])
+  rating: Float
+  Orders: [Order] @hasMany(indexName: "byRestaurant", fields: ["id"])
+  adminSub: String
+}
+ 
