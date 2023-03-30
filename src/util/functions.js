@@ -1,11 +1,12 @@
 import { Tag } from "antd";
 import { Storage } from "aws-amplify";
-import awsconfig from '../aws-exports';
+import { aws } from "./useful_stuff";
+// import aws from '../aws-exports';
 
 const storageConfug = {
   level: 'public', 
   bucket: 'unifyfood-storage-7698524c91457-staging',
-  region: awsconfig.aws_project_region
+  region: aws.aws_project_region
 }
 
 export const renderOrderStatus = (status) => {

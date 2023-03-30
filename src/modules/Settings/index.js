@@ -1,4 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState
+} from "react";
 import { Form, Input, Card, Button, Image, Radio, Divider } from "antd";
 import GooglePlacesAutocomplete, {
   geocodeByAddress,
@@ -7,7 +11,6 @@ import GooglePlacesAutocomplete, {
 import { AuthContext } from "../../Context/AuthContext";
 import { handleUploadClick } from "../../util/functions";
 
-// const API_KEY = 'AIzaSyB7NvNw5x4CygVrcby5P11oLnEYWU-AbkI';
 const API_KEY = 'AIzaSyAPmarOWwuOyicLAo5NHtyv5mnWBQ8oUUA';
 const Settings = () => {
   const [restaurantName, setRestaurantName] = useState(null);
@@ -72,11 +75,8 @@ const Settings = () => {
     //0.3574515,32.7375806
     setUploading(true);
     const cover_image = await handleUploadClick('restaurants', rawImage);
-    // return
     console.log(cover_image)
     setUploading(false);
-    // setL(false);
-    // return;
     const rest_data = {
       categories,
       cover_image: cover_image.split('?')[0],

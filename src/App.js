@@ -5,12 +5,14 @@ import AppRoutes from "./components/AppRoutes";
 import { Amplify, DataStore } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import awsconfig from './aws-exports';
+// import awsconfig from './aws-exports';
 import { useEffect } from "react";
 import AuthContextProvider from "./Context/AuthContext";
 import icon from './assets/data/icon.png'
+import { aws } from "./util/useful_stuff";
 
-Amplify.configure(awsconfig);
+Amplify.configure(aws);
+// Amplify.configure(awsconfig);
 // Storage.configure(awsconfig);
 
 const { Sider, Content, Footer } = Layout;
@@ -38,7 +40,7 @@ function App() {
               <AppRoutes />
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            UnifyFoods Restaurant Dashboard ©2023
+            UnifyFoods Restaurant Dashboard ©2023.
           </Footer>
         </Layout>
       </Layout>
