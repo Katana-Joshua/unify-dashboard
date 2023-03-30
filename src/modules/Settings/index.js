@@ -7,14 +7,16 @@ import GooglePlacesAutocomplete, {
 import { AuthContext } from "../../Context/AuthContext";
 import { handleUploadClick } from "../../util/functions";
 
-const API_KEY = 'AIzaSyB7NvNw5x4CygVrcby5P11oLnEYWU-AbkI';
-
+// const API_KEY = 'AIzaSyB7NvNw5x4CygVrcby5P11oLnEYWU-AbkI';
+const API_KEY = 'AIzaSyAPmarOWwuOyicLAo5NHtyv5mnWBQ8oUUA';
 const Settings = () => {
   const [restaurantName, setRestaurantName] = useState(null);
   const [address, setAddress] = useState(null);
+  const [textAddress, setTextAddress] = useState('');
   const [uploading, setUploading] = useState(false);
   const [coordinates, setCoordinates] = useState(null);
   const [image, setImage] = useState(null);
+  const [planB, setPlanB] = useState(false);
   const [categories, setCategories] = useState({
     in_campus: false,
     fast_food: false,
@@ -36,11 +38,20 @@ const Settings = () => {
   }, []);
 
   const getAddressLatLng = async (address) => {
-    console.log(address);
-    setAddress(address);
-    const geocodedByAddress = await geocodeByAddress(address.label);
-    const latLng = await getLatLng(geocodedByAddress[0]);
-    setCoordinates(latLng);
+    try {
+      console.log(address);
+      setAddress(address);
+      const geocodedByAddress = await geocodeByAddress(address.label);
+      const latLng = await getLatLng(geocodedByAddress[0]);
+      if(!geocodedByAddress || !latLng && !address){
+        setPlanB(true);
+        return;
+      }
+      setCoordinates(latLng);
+    } catch (error) {
+      console.log(error);
+      setPlanB(true);
+    }
   };
 
   const onSelectImage = (e) => {
@@ -58,6 +69,7 @@ const Settings = () => {
   }
 
   const onSubmit = async() => {
+    //0.3574515,32.7375806
     setUploading(true);
     const cover_image = await handleUploadClick('restaurants', rawImage);
     // return
@@ -67,12 +79,12 @@ const Settings = () => {
     // return;
     const rest_data = {
       categories,
-      cover_image: cover_image,
+      cover_image: cover_image.split('?')[0],
       // cover_image: image,
-      lat: coordinates.lat,
-      lng: coordinates.lng,
+      lat: planB ? 0.3574515 : coordinates.lat,
+      lng: planB ? 32.7375806 : coordinates.lng,
       name: restaurantName,
-      address: address.label,
+      address: planB ? textAddress : address.label,
       adminSub: auth.sub,
       drinks: [],
       rating: 0.0
@@ -97,7 +109,12 @@ const Settings = () => {
         <Form.Item label="Restaurant Name" required>
           <Input value={restaurantName} placeholder="Enter restaurant name here" onChange={e => setRestaurantName(e.target.value)}/>
         </Form.Item>
-        <Form.Item label="Restaurant Address" required>
+        {planB ? 
+        <Form.Item label="Address" required>
+          <Input value={textAddress} placeholder="Enter restaurant address here" onChange={e => setTextAddress(e.target.value)}/>
+        </Form.Item>
+        :
+        <Form.Item label="Lookup Restaurant Address" required>
           <GooglePlacesAutocomplete
             apiKey={API_KEY}
             // apiKey={process.env.GOOGLE_PLACES_API}
@@ -106,7 +123,7 @@ const Settings = () => {
               onChange: getAddressLatLng,
             }}
           />
-        </Form.Item>
+        </Form.Item>}
         <Form.Item label="Pick restaurant Categories (Select at least one)" required>
           <Radio 
             checked={categories.in_campus}

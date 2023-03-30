@@ -50,7 +50,7 @@ const CreateMenuItem = () => {
     setCreating(true);
     DataStore.save(new Dish({
       ...dishFormData,
-      image: dish_image,
+      image: dish_image.split('?')[0],
       restaurantID: restaurant.id,
     }))
     .then(res => {
