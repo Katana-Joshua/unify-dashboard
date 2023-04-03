@@ -1,4 +1,4 @@
-.ant-btn-primary {
+/* .ant-btn-primary {
   background-color: #3fc060 !important;
   border-color: #3fc060 !important;
 }
@@ -21,4 +21,29 @@ li.ant-pagination-item-active a {
 
 .ant-menu-item-active {
   color: #3fc060 !important;
+} */
+
+.ant-btn-primary{
+  background-color: #00bfff !important;
+  border-color: #00bfff !important;
 }
+.ant-btn-danger{
+  background-color: #e6991d !important;
+  border-color: #e6991d !important;
+}
+.ant-pagination-item-active{
+  border-color: #00bfff !important;
+}
+
+.li.ant-pagination-item-active {
+  color: #00bfff !important;
+}
+
+
+.ant-menu-item:focus{ 
+  background-color:  #00bfff !important;
+  color: White !important;
+}
+
+
+

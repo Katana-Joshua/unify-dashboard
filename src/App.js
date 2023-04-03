@@ -29,8 +29,10 @@ function App() {
       <Layout>
         <Sider style={{ height: "100vh", backgroundColor: "white" }}>
           <Image
+          src="https://i.ibb.co/xF91LVF/Unify-Food1.png"
             // src={require('./assets/data/icon.png')}
-            src={icon}
+            // src={icon}
+            style={{ height: "20vh", width: "200px" }}
             preview={false}
           />
           <SideMenu />
